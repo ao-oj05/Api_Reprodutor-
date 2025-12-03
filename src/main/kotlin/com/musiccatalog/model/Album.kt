@@ -5,13 +5,14 @@ import org.jetbrains.exposed.sql.ReferenceOption
 import org.jetbrains.exposed.sql.javatime.timestamp
 import java.time.OffsetDateTime
 import java.util.*
+import com.musiccatalog.model.Artist
 
 object Albums : BaseTable("albumes") {
     val title = varchar("title", 150)
     val releaseYear = integer("release_year").check { it greaterEq 1900 }.nullable()
     val artistId = reference("artist_id", Artists.id, onDelete = ReferenceOption.CASCADE)
     
-    // id, createdAt y updatedAt ya están definidos en BaseTable
+
 }
 
 data class Album(

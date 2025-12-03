@@ -11,7 +11,7 @@ object Artists : BaseTable("artistas") {
     val name = varchar("name", 100).uniqueIndex()
     val genre = varchar("genre", 50).nullable()
     
-    // createdAt y updatedAt ya están definidos en BaseTable
+
 }
 
 data class Artist(

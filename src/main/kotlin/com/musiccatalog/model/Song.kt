@@ -6,19 +6,21 @@ import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.javatime.timestamp
 import java.time.OffsetDateTime
 import java.util.*
+import com.musiccatalog.model.Album
+import com.musiccatalog.model.Artist
 
 object Tracks : BaseTable("tracks") {
     val title = varchar("title", 150)
-    val duration = integer("duration").check { it greaterEq 1 } // Duración en segundos (mínimo 1 segundo)
+    val duration = integer("duration").check { it greaterEq 1 }
     val albumId = reference("album_id", Albums.id, onDelete = ReferenceOption.CASCADE)
     
-    // id, createdAt y updatedAt ya están definidos en BaseTable
+
 }
 
 data class Track(
     val id: UUID? = null,
     val title: String,
-    val duration: Int, // Duración en segundos
+    val duration: Int,
     val albumId: UUID,
     val createdAt: OffsetDateTime? = null,
     val updatedAt: OffsetDateTime? = null
