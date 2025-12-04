@@ -2,19 +2,21 @@ package com.musiccatalog.model
 
 import org.jetbrains.exposed.sql.Table
 import org.jetbrains.exposed.sql.javatime.timestamp
-import java.time.OffsetDateTime
+import java.time.Instant
 import java.util.*
 
 typealias EntityID = UUID
 
 interface BaseEntity {
     val id: UUID?
-    val createdAt: OffsetDateTime?
-    val updatedAt: OffsetDateTime?
+    val createdAt: Instant?
+    val updatedAt: Instant?
 }
 
 abstract class BaseTable(name: String) : Table(name) {
-    val id = uuid("id").primaryKey().default(UUID.randomUUID())
-    val createdAt = timestamp("created_at").clientDefault { OffsetDateTime.now() }
-    val updatedAt = timestamp("updated_at").clientDefault { OffsetDateTime.now() }
+    val id = uuid("id").clientDefault { UUID.randomUUID() }
+    val createdAt = timestamp("created_at").clientDefault { Instant.now() }
+    val updatedAt = timestamp("updated_at").clientDefault { Instant.now() }
+    
+    override val primaryKey = PrimaryKey(id, name = "pk_${tableName}_id")
 }
